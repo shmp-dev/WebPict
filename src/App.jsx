@@ -36,9 +36,7 @@ const patternImageNames = [
   "72.png",
   "73.png",
 ];
-const unitPatterns = patternImageNames.map(
-  (name) => `/src/assets/picts/${name}`
-);
+const unitPatterns = patternImageNames.map((name) => `/assets/picts/${name}`);
 
 function App() {
   // 5x5グリッド（初期値はnull）

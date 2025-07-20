@@ -1,5 +1,12 @@
 # クイックピクト
 
+## 公開先
+https://shmp-dev.github.io/WebPict/  
+  
+<img width="500" alt="WebPict" src="https://github.com/user-attachments/assets/6acdb439-1560-4dde-a99c-21f24f06c03c" />
+
+
+
 ## 概要
 
 「クイックピクト」は、Web 上で 32 種類のユニットパターンを使い、ピクトグラムを自由に作成できる React 製 Web アプリケーションです。

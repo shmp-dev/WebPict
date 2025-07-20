@@ -92,16 +92,14 @@ function App() {
     </div>
   );
 
-  // 保存boxに保存（新規or上書き）
   // 保存boxに保存（選択slotに新規or上書き）
   const handleSave = () => {
     if (selectedSaveIdx === null) return; // slot未選択なら何もしない
     const gridCopy = JSON.parse(JSON.stringify(grid));
     setSavedImages((prev) => {
-      const newArr = prev.slice();
-      newArr[selectedSaveIdx] = gridCopy;
-      // 3つより多くならないように
-      return newArr.slice(0, 3);
+      const newArr = [...prev]; // 既存の配列をコピー
+      newArr[selectedSaveIdx] = gridCopy; // 選択されたスロットに保存
+      return newArr;
     });
   };
 
@@ -128,7 +126,7 @@ function App() {
         fontFamily: "sans-serif",
         background: "#fafafa",
         minHeight: "100vh",
-        padding: 0,
+        padding: "20px",
       }}
     >
       <header style={{ marginBottom: 16 }}>
@@ -191,17 +189,31 @@ function App() {
               <button
                 key={angle}
                 style={{
-                  padding: "6px 12px",
-                  background: selectedAngle === angle ? "#1976d2" : "#eee",
-                  color: selectedAngle === angle ? "#fff" : "#333",
-                  border: "none",
-                  borderRadius: 4,
-                  fontWeight: "bold",
+                  border:
+                    selectedAngle === angle
+                      ? "2px solid #1976d2"
+                      : "1px solid #ccc",
+                  background: selectedAngle === angle ? "#e3f2fd" : "#fff",
+                  padding: 4,
                   cursor: "pointer",
+                  width: 60,
+                  height: 60,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 4,
                 }}
                 onClick={() => setSelectedAngle(angle)}
               >
-                {angle}°
+                <img
+                  src={unitPatterns[selectedUnit]}
+                  alt={`${angle}°`}
+                  style={{
+                    width: 48,
+                    height: 48,
+                    transform: `rotate(${angle}deg)`,
+                  }}
+                />
               </button>
             ))}
           </div>
@@ -259,12 +271,12 @@ function App() {
                 border: "none",
                 borderRadius: 4,
                 fontWeight: "bold",
-                cursor: savedImages.length >= 3 ? "not-allowed" : "pointer",
-                opacity: savedImages.length >= 3 ? 0.5 : 1,
+                cursor: selectedSaveIdx === null ? "not-allowed" : "pointer",
+                opacity: selectedSaveIdx === null ? 0.5 : 1,
                 transition: "background 0.2s",
               }}
               onClick={handleSave}
-              disabled={savedImages.length >= 3}
+              disabled={selectedSaveIdx === null}
             >
               保存boxに移動
             </button>
@@ -299,24 +311,23 @@ function App() {
               fontSize: "1.1rem",
             }}
           >
-            保存box（最大21）
+            保存box（最大6）
           </div>
           <div
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(3, 1fr)",
-              gridTemplateRows: "repeat(7, 1fr)",
+              gridTemplateRows: "repeat(2, 1fr)",
               gap: 16,
-              maxWidth: 700,
+              maxWidth: 800,
               margin: "0 auto",
               paddingBottom: 8,
               background: "#fff",
-              borderRadius: 12,
               boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
               overflow: "hidden",
             }}
           >
-            {[...Array(21)].map((_, idx) => {
+            {[...Array(6)].map((_, idx) => {
               const isSelected = selectedSaveIdx === idx;
               const isSaved = savedImages[idx] !== undefined;
               return (
@@ -324,13 +335,13 @@ function App() {
                   key={idx}
                   style={{
                     border: isSelected ? "7px solid #1976d2" : "2px solid #ccc",
-                    padding: isSelected ? 0 : 4,
+                    padding: isSelected ? 6 : 4,
                     position: "relative",
                     boxSizing: "border-box",
                     cursor: "pointer",
                     background: isSelected ? "#e3f2fd" : "#fff",
-                    width: 220,
-                    height: 220,
+                    width: 232,
+                    height: 240,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -396,7 +407,7 @@ function App() {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        color: "#bbb",
+                        color: "#666",
                         fontSize: 16,
                         background: "#fff",
                       }}
